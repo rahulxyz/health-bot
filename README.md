@@ -10,6 +10,10 @@ Health-Bot is an intelligent agent designed to assist users with health-related 
 - Multi-agent collaboration for complex tasks
 - Extensible toolset for custom workflows
 
+## Python Version
+
+This project requires **Python 3.11.13**.
+
 ## Folder Structure
 
 - `config.env` – Environment configuration (excluded from version control)
