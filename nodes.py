@@ -10,7 +10,7 @@ from ragas.llms import LangchainLLMWrapper
 from ragas.metrics import Faithfulness, FactualCorrectness, AnswerRelevancy, SemanticSimilarity
 
 from typing import Dict
-from helpers import get_grade
+from helpers import get_grade, get_tools_message_content
 from setup import State, llm, tavily_client
 
 def entry_point(state: State):
@@ -51,7 +51,12 @@ def router(state: State):
 
 def summarize(state: State):
     messages = state["messages"]
-    summarization_prompt = f"Summarise the previous search results into 3 or more paragraphs"
+    tools_content = get_tools_message_content(messages[-1])
+    summarization_prompt = f"""
+    Summarise the previous search result into 3 to 4 paragraphs. 
+    Avoid making assumptions. Summary should be simple and patient friendly
+    Ensure the summary's information source remains limited to following context: {tools_content}
+    """
     sys_message= SystemMessage(content=summarization_prompt)
     messages.append(sys_message)
     ai_message = llm.invoke(messages)

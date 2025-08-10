@@ -1,4 +1,7 @@
+import json
+
 from IPython.display import Image, display
+from langchain_core.messages.tool import ToolMessage
 
 def print_img(graph, filename):
     # Option 1: Create a file image
@@ -52,3 +55,12 @@ def get_grade(result: dict) -> str:
         grade= "D"
     
     return grade
+
+def get_tools_message_content(msg:ToolMessage)->str:
+    data = json.loads(msg.content)
+
+    all_content = "\n".join(
+        item["content"] for item in data.get("results", []) if item.get("content")
+    )
+
+    return all_content
